@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data noupdate="1">
+        <record id="payment.payment_acquirer_stripe" model="payment.acquirer">
+            <field name="stripe_mp_client_key">dummy</field>
+            <field name="stripe_secret_key">dummy</field>
+            <field name="stripe_publishable_key">dummy</field>
+            <field name="is_mp_stripe">True</field>
+            <field name="state">test</field>
+        </record>
+    </data>
+</odoo>

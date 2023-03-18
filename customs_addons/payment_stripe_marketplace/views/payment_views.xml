@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+        <record id="acquirer_form_stripe_marketplace" model="ir.ui.view">
+            <field name="name">mp.payment.acquirer.form.inherit</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.payment_acquirer_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//group[@name="acquirer"]' position='inside'>
+                    <group attrs="{'invisible': ['|',('is_mp_stripe', '!=', True),('provider', '!=', 'stripe')]}">
+                        <field name="is_mp_stripe" invisible='1'/>
+                        <field name="stripe_account_type" attrs="{'required':[ ('is_mp_stripe', '=', True),('provider', '=', 'stripe'), ('state', '!=', 'disabled')]}"/>
+                        <field name="stripe_mp_client_key" attrs="{'required':[ ('is_mp_stripe', '=', True),('provider', '=', 'stripe'), ('state', '!=', 'disabled')]}" password="True"/>
+                    </group>
+                </xpath>
+                <xpath expr='//form/sheet/field[@name="image_128"]' position='before'>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_mp_stripe" string="Marketplace Payment" type="object" class="oe_stat_button text-success" icon="fa-toggle-on" attrs="{'invisible': ['|',('is_mp_stripe', '=', False),('provider', '!=', 'stripe')]}"/>
+                        <button name="toggle_mp_stripe" string="Marketplace Payment" type="object" class="oe_stat_button text-danger" icon="fa-toggle-off" attrs="{'invisible': ['|',('is_mp_stripe', '=', True),('provider', '!=', 'stripe')]}"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Tree and form view for payment transaction message -->
+        <record id="transaction_form_stripe_marketplace" model="ir.ui.view">
+            <field name="name">acquirer.transaction.form.stripe.marketplace</field>
+            <field name="model">payment.transaction</field>
+            <field name="inherit_id" ref="payment.payment_transaction_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet/group[last()]" position="after">
+                    <notebook attrs="{'invisible': ['|',('provider', '!=', 'stripe'),('is_mp_stripe', '!=',True)]}">
+                        <page string="Stripe Marketplace TX Details">
+                            <field name="provider" invisible="1"/>
+                            <field name="is_mp_stripe" invisible="1"/>
+                            <label for="stripe_mp_receiver_ids" string="Payment Receiver(s)"/>
+                            <field name="stripe_mp_receiver_ids" readonly="1">
+                                <br></br>
+                                <tree>
+                                    <field name="receipt_email" help="Receipient Email (In case of seller only.)"/>
+                                    <field name="destination_acc_id" help="Seller Stripe Account (In case of seller only.)"/>
+                                    <field name="charge_obj_id"/>
+                                    <field name="transfer" help="Stripe transfer detail (In case of seller only.)"/>
+                                    <field name="source_id"/>
+                                    <field name="is_paid"/>
+                                    <field name="status"/>
+                                    <field name="amount"/>
+                                    <field name="currency"/>
+                                    <field name="balance_txn" invisible="1"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="receipt_email" help="Receipient Email (In case of seller only.)"/>
+                                            <field name="destination_acc_id" help="Seller Stripe Account (In case of seller only.)"/>
+                                            <field name="charge_obj_id"/>
+                                            <field name="transfer" help="Stripe transfer detail (In case of seller only.)"/>
+                                        </group>
+                                        <group>
+                                            <field name="source_id"/>
+                                            <field name="is_paid"/>
+                                            <field name="status"/>
+                                            <field name="amount"/>
+                                            <field name="currency"/>
+                                            <field name="balance_txn"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="stripe_response"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                    </notebook>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

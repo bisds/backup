@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+stripe_receiver_pub_access,pub_access_stripe_receiver,model_stripe_marketplace_receiver,,1,1,1,0
+stripe_marketplace_setup_seller,stripe_marketplace_setup_seller,model_stripe_marketplace_setup,odoo_marketplace.marketplace_seller_group,1,1,1,1

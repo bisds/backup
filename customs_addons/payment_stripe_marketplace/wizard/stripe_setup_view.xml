@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <record id="stripe_marketplace_setup_wizard" model="ir.ui.view">
+            <field name="name">Payment Acquirer Stripe Oauth Setup</field>
+            <field name="model">stripe.marketplace.setup</field>
+            <field name="arch" type="xml">
+                <form>
+                    <field name="mp_seller_id" invisible="1"/>
+                    <field name="is_oauth_done" invisible="1"/>
+                    <div attrs="{'invisible' : [('is_oauth_done', '!=', False)]}">
+                        <h4><p>Please connect with stripe payment gateway and generate your access token and publishable key to get payment from stripe.</p></h4>
+                    </div>
+
+                    <div attrs="{'invisible' : [('is_oauth_done', '=', False)]}" class="alert alert-success" role="alert">
+                        <span class="fa fa-check-circle" style="font-size: 15px;font-weight: 600;">
+                            You stripe account has been successfully linked with us.
+                        </span>
+                        <img src="/payment_stripe_marketplace/static/src/img/powered_by_stripe.png" alt="powered_by_stripe" style="float:right;"/>
+                    </div>
+
+                    <div attrs="{'invisible' : [('is_oauth_done', '=', False)]}">
+                        <h4><p>Save your bank information using stripe account if not added or if routing or any other information changes please reauthorize using the stripe system.</p></h4>
+                    </div>
+                    <button name="integrating_stripe_oauth" type="object" string="" attrs="{'invisible' : [('is_oauth_done', '!=', False)]}" icon="/payment_stripe_marketplace/static/src/img/blue-on-dark.png"/>
+                    <h4 attrs="{'invisible' : [('is_oauth_done', '!=', False)]}"><p>You can disconnect your stripe account anytime.</p></h4>
+                    <button name="integrating_stripe_oauth" type="object" string="" attrs="{'invisible' : [('is_oauth_done', '=', False)]}" icon="/payment_stripe_marketplace/static/src/img/Update-Stripe.png"/>
+                    <br/>
+                    <div attrs="{'invisible' : [('is_oauth_done', '=', False)]}">
+                        <br>Or</br>
+                    </div>
+                    <br/>
+                    <button name="deauthorize_stripe_oauth" type="object" string="" attrs="{'invisible' : [('is_oauth_done', '=', False)]}" icon="/payment_stripe_marketplace/static/src/img/Disconnect-From-Stripe.png" confirm='Do you realy want to "Disconnect From Stripe" ?'/>
+                </form>
+            </field>
+        </record>
+
+        <record id="stripe_marketplace_setup_action" model="ir.actions.act_window">
+            <field name="name">Stripe OAuth Setup</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stripe.marketplace.setup</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+        </record>
+
+        <menuitem id="stripe_marketplace_setup_menu" name="Stripe Payment" parent="odoo_marketplace.wk_seller_dashboard_menu8" action="stripe_marketplace_setup_action" groups="odoo_marketplace.marketplace_seller_group"/>
+    </data>
+</odoo>
